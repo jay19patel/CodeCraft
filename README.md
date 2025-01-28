@@ -79,6 +79,26 @@
 - **Advanced Graph Algorithms:**
   - Floyd-Warshall, Tarjan’s Algorithm (Strongly Connected Components).
 
+### **DSA Patterns which are most important**
+
+- **Prefix Sum**
+- **Two Pointes**
+- **Sliding Windo**
+- **Fast and Slow Pointers**
+- **Linked List in place Reversal**
+- **Monotonic Stack**
+- **Top K Element**
+- **Overlapping Intervals**
+- **Modified Binary Search**
+- **Binary Tree Traversal**
+- **Depth First Search**
+- **Breadth First Search**
+- **Matrix Traversal**
+- **Backtracking**
+- **Dynamic Progra**
+- 
+
+
 ---
 
 ## **3. Object-Oriented Programming (OOPs)**
