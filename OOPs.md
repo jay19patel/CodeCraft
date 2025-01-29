@@ -1,0 +1,194 @@
+# Object-Oriented Programming (OOP) Concepts
+
+Object-Oriented Programming (OOP) is a programming paradigm that organizes code into **objects**, making it modular, reusable, and scalable. It provides a way to structure software around **real-world entities**.
+
+---
+
+## **1. Class and Object**
+
+### **Class**: A blueprint for creating objects. It defines attributes (data) and methods (functions).
+### **Object**: An instance of a class.
+
+### ✅ **Example**
+```python
+class Car:
+    def __init__(self, brand, model):
+        self.brand = brand  # Attribute
+        self.model = model  # Attribute
+
+    def display_info(self):
+        print(f"Car: {self.brand} {self.model}")
+
+# Creating an object
+my_car = Car("Toyota", "Corolla")
+my_car.display_info()
+```
+---
+
+## **2. Encapsulation**
+### "Restrict direct access to object data and ensure data integrity."
+
+Encapsulation hides internal object details and allows controlled access.
+
+### ✅ **Example**
+```python
+class BankAccount:
+    def __init__(self, balance):
+        self.__balance = balance  # Private attribute
+
+    def deposit(self, amount):
+        self.__balance += amount
+
+    def get_balance(self):
+        return self.__balance
+
+# Using encapsulation
+account = BankAccount(1000)
+account.deposit(500)
+print(account.get_balance())  # Output: 1500
+```
+🚨 `__balance` is **private** and cannot be accessed directly (`account.__balance`).
+
+---
+
+## **3. Inheritance**
+### "One class can inherit properties and behaviors from another class."
+
+Inheritance allows code **reuse** and creates a hierarchy of classes.
+
+### ✅ **Example**
+```python
+class Animal:
+    def make_sound(self):
+        print("Some sound")
+
+class Dog(Animal):
+    def make_sound(self):
+        print("Bark")
+
+# Using inheritance
+dog = Dog()
+dog.make_sound()  # Output: Bark
+```
+👉 `Dog` **inherits** from `Animal` but overrides `make_sound()`.
+
+---
+
+## **4. Polymorphism**
+### "Different classes can have methods with the same name, but different implementations."
+
+### ✅ **Example**
+```python
+class Bird:
+    def fly(self):
+        print("Bird can fly")
+
+class Penguin(Bird):
+    def fly(self):
+        print("Penguins cannot fly")
+
+# Polymorphism in action
+birds = [Bird(), Penguin()]
+for bird in birds:
+    bird.fly()
+```
+👉 Both classes have a `fly()` method, but with different behaviors.
+
+---
+
+## **5. Abstraction**
+### "Hides implementation details and only shows essential features."
+
+Abstract classes **define methods** but do not provide complete implementations.
+
+### ✅ **Example**
+```python
+from abc import ABC, abstractmethod
+
+class Vehicle(ABC):
+    @abstractmethod
+    def start_engine(self):
+        pass
+
+class Car(Vehicle):
+    def start_engine(self):
+        print("Car engine started")
+
+# Using abstraction
+my_car = Car()
+my_car.start_engine()
+```
+🚨 `Vehicle` is an **abstract class**; it **cannot** be instantiated directly.
+
+---
+
+## **6. Association, Aggregation, and Composition**
+
+### **Association**: A general relationship between two classes.
+### **Aggregation**: A "has-a" relationship where one object contains another, but they can exist independently.
+### **Composition**: A "strong has-a" relationship where one object depends on another.
+
+### ✅ **Example**
+```python
+class Engine:
+    def start(self):
+        print("Engine started")
+
+class Car:
+    def __init__(self):
+        self.engine = Engine()  # Composition
+    
+    def start(self):
+        self.engine.start()
+        print("Car started")
+
+my_car = Car()
+my_car.start()
+```
+👉 **Car cannot exist without an Engine**, demonstrating **Composition**.
+
+---
+
+## **7. Method Overriding vs Overloading**
+
+### **Method Overriding**
+A subclass provides a **new implementation** for a method defined in its parent class.
+
+```python
+class Parent:
+    def show(self):
+        print("Parent class")
+
+class Child(Parent):
+    def show(self):
+        print("Child class")
+
+obj = Child()
+obj.show()  # Output: Child class
+```
+
+### **Method Overloading** (Not natively supported in Python but achievable using default arguments)
+```python
+class Math:
+    def add(self, a, b, c=0):
+        return a + b + c
+
+math_obj = Math()
+print(math_obj.add(2, 3))  # Output: 5
+print(math_obj.add(2, 3, 4))  # Output: 9
+```
+👉 Method overloading is **simulated** using **default arguments**.
+
+---
+
+## **Advantages of OOP**
+
+✅ **Code Reusability** – Inheritance reduces redundancy.
+✅ **Scalability & Maintainability** – Encapsulation ensures modular code.
+✅ **Flexibility** – Polymorphism allows different behaviors for the same interface.
+✅ **Security** – Abstraction and Encapsulation provide data protection.
+
+---
+
+### 🚀 Object-Oriented Programming helps build robust, scalable, and reusable software! 🚀
+
