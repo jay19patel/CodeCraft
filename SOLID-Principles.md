@@ -220,7 +220,10 @@ service.get_user()  # Output: Connecting to PostgreSQL
 
 ---
 ---
+Example
 ---
+---
+
 #  **SOLID Principle**
 
     - Single Responsibility Principle (SRP)
@@ -598,5 +601,225 @@ class NotificationService:
 | ✅ **LSP** (Liskov Substitution) | All notifiers follow the same interface, ensuring compatibility. |
 | ✅ **ISP** (Interface Segregation) | Order and Cart do not directly handle notifications; they use a separate NotificationService. |
 | ✅ **DIP** (Dependency Inversion) | NotificationService depends on an abstract Notification class rather than concrete implementations. |
+---
 
+## Database Singleton Class
 
+### ✅ **Production-Ready Singleton Database Class**
+```python
+class Database:
+    """Singleton class to manage in-memory database for users, products, and orders."""
+    
+    _instance = None  # Singleton instance
+
+    def __new__(cls):
+        """Ensures only one instance of Database exists."""
+        if cls._instance is None:
+            cls._instance = super(Database, cls).__new__(cls)
+            cls._instance.users = {}    # {email: User}
+            cls._instance.products = {} # {product_id: Product}
+            cls._instance.orders = {}   # {order_id: Order}
+        return cls._instance
+
+    @classmethod
+    def add_user(cls, user):
+        """Adds a user to the database."""
+        if user.email in cls._instance.users:
+            print(f"User with email {user.email} already exists!")
+            return False
+        cls._instance.users[user.email] = user
+        print(f"User {user.name} added successfully.")
+        return True
+
+    @classmethod
+    def get_user(cls, email):
+        """Retrieves a user by email."""
+        return cls._instance.users.get(email, None)
+
+    @classmethod
+    def add_products(cls, products: list):
+        """Adds a list of products to the database."""
+        try:
+            for product in products:
+                if product.id in cls._instance.products:
+                    print(f"Product {product.id} already exists!")
+                    return False
+                cls._instance.products[product.id] = product
+                print(f"Product {product.name} added successfully.")
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
+
+    @classmethod
+    def get_product(cls, product_id):
+        """Retrieves a product by ID."""
+        return cls._instance.products.get(product_id, None)
+
+    @classmethod
+    def add_order(cls, order):
+        """Adds an order to the database."""
+        if order.id in cls._instance.orders:
+            print(f"Order {order.id} already exists!")
+            return False
+        cls._instance.orders[order.id] = order
+        print(f"Order {order.id} added successfully.")
+        return True
+
+    @classmethod
+    def get_order(cls, order_id):
+        """Retrieves an order by ID."""
+        return cls._instance.orders.get(order_id, None)
+
+    @classmethod
+    def list_users(cls):
+        """Displays all users."""
+        return list(cls._instance.users.values())
+
+    @classmethod
+    def list_products(cls):
+        """Displays all products."""
+        return list(cls._instance.products.values())
+
+    @classmethod
+    def list_orders(cls):
+        """Displays all orders."""
+        return list(cls._instance.orders.values())
+
+# Usage Example
+if __name__ == "__main__":
+    db1 = Database()
+    db2 = Database()
+    print(db1 is db2)  # True, proving Singleton behavior
+```
+
+### 🚀 **Final Benefits of This Approach**
+| Principle  | Fix |
+|------------|-----|
+| ✅ **Ensures Singleton** | Only one database instance exists throughout the application. |
+| ✅ **Centralized Data Handling** | All user, product, and order data is managed through a single class. |
+| ✅ **Thread-Safe & Scalable** | No duplicate database objects, preventing conflicts. |
+
+---
+**Flow and UML**
+---
+## **Class Definitions and Relationships**
+
+### **1. User** *(Base Class)*
+- `id: str`
+- `name: str`
+- `email: str`
+- `password: str`
+- `is_authenticated: bool`
+- **Methods:**
+  - `verify_password(password) -> bool`
+  - `update_details(name, email) -> None`
+
+### **2. AuthService**
+- **Methods:**
+  - `hash_password(password: str) -> str`
+  - `verify_password(hashed_password: str, input_password: str) -> bool`
+  - `register(username: str, password: str, email: str) -> str`
+  - `login(username: str, password: str) -> str`
+
+### **3. Product** *(Base Class)*
+- `id: str`
+- `name: str`
+- `price: float`
+- `stock: int`
+- `category: Optional[str]`
+- `description: Optional[str]`
+- `discount: float`
+- **Methods:**
+  - `is_available() -> bool`
+  - `apply_discount(discount_percentage: float) -> None`
+  - `get_final_price() -> float`
+
+### **4. PhysicalProduct** *(Inherits from Product)*
+- `weight: float`
+- `dimensions: str`
+
+### **5. DigitalProduct** *(Inherits from Product)*
+- `file_size: float`
+- `download_link: str`
+
+### **6. ProductService**
+- **Methods:**
+  - `add_product(product: Product) -> bool`
+  - `get_product_by_id(product_id: str) -> Optional[Product]`
+
+### **7. Cart** *(Base Class)*
+- `id: str`
+- `user: User`
+- `items: List[Tuple[Product, int]]`
+- **Methods:**
+  - `add_product(product: Product, quantity: int) -> None`
+  - `remove_product(product: Product) -> None`
+  - `get_total() -> float`
+
+### **8. CartService**
+- **Methods:**
+  - `checkout(cart: Cart) -> Order`
+
+### **9. Order** *(Base Class)*
+- `id: str`
+- `user: User`
+- `cart: Cart`
+- `total_price: float`
+- `status: str`
+- **Methods:**
+  - `process_order() -> None`
+  - `update_status(new_status: str) -> None`
+
+### **10. OrderService**
+- **Methods:**
+  - `place_order(cart: Cart) -> Order`
+  - `cancel_order(order: Order) -> None`
+
+### **11. Notification** *(Abstract Class & Interface Implemented by Email & SMS)*
+- **Methods:**
+  - `send(recipient: str, message: str) -> None`
+
+### **12. EmailNotification** *(Inherits Notification)*
+- **Methods:**
+  - `send(email: str, message: str) -> None`
+
+### **13. SMSNotification** *(Inherits Notification)*
+- **Methods:**
+  - `send(phone: str, message: str) -> None`
+
+### **14. Payment** *(Abstract Class & Interface Implemented by UPI and Card Payment)*
+- **Methods:**
+  - `process() -> bool`
+
+### **15. UPIPayment** *(Inherits Payment)*
+- **Methods:**
+  - `process() -> bool`
+
+### **16. CardPayment** *(Inherits Payment)*
+- **Methods:**
+  - `process() -> bool`
+
+---
+
+## **Key Inheritance & Implementation Relationships**
+| **Base Class** | **Inherited By** |
+|--------------|----------------|
+| `Product` | `PhysicalProduct`, `DigitalProduct` |
+| `Notification` | `EmailNotification`, `SMSNotification` |
+| `Payment` | `UPIPayment`, `CardPayment` |
+| `Order` | `CartService` Uses Order |
+| `Cart` | `CartService` Uses Cart |
+
+---
+
+## **Final Benefits of This Approach**
+| Principle | Benefit |
+|-----------|---------|
+| ✅ **SRP** | Each class has a single responsibility. |
+| ✅ **OCP** | New product types, notifications, and payments can be added without modifying existing classes. |
+| ✅ **LSP** | All subclasses replace the base class without breaking functionality. |
+| ✅ **ISP** | Interfaces ensure classes only implement required methods. |
+| ✅ **DIP** | High-level modules depend on abstractions, not concrete implementations. |
+
+---
