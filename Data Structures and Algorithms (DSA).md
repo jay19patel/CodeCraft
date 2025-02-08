@@ -1,7 +1,3 @@
-# Software Developer Preparation Guide
-
-## **1. Data Structures and Algorithms (DSA)**
-
 ### **1.1 Foundational Topics**
 
 #### **Linear Data Structures**
@@ -138,43 +134,3 @@
 | **O(1)**      | Constant space, independent of input size. |
 | **O(n)**      | Linear space, grows directly with input size. |
 
----
-
-## **2. Object-Oriented Programming (OOPs)**
-
-### **2.1 Core Concepts**
-
-- **Encapsulation**: Bundling data and methods into a single unit (class).
-- **Abstraction**: Hiding implementation details and showing only the essential features.
-- **Inheritance**: Reusing and extending functionality of an existing class.
-- **Polymorphism**: Same interface, different behaviors (method overloading/overriding).
-
-### **2.2 Access Modifiers**
-
-- **Private**: Accessible only within the class.
-- **Protected**: Accessible within the class and its subclasses.
-- **Public**: Accessible from anywhere.
-
-Example:
-```python
-class Employee:
-    def __init__(self, name, salary):
-        self.name = name  # Public
-        self.__salary = salary  # Private
-
-    def display(self):
-        print(f"Name: {self.name}, Salary: {self.__salary}")
-```
-
-### **2.3 Design Principles**
-
-- **SOLID Principles**:
-  - Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion.
-- **DRY** (Don’t Repeat Yourself).
-- **KISS** (Keep It Simple, Stupid).
-
-### **2.4 Design Patterns**
-
-- **Creational Patterns**: Singleton, Factory.
-- **Structural Patterns**: Adapter, Decorator.
-- **Behavioral Patterns**: Observer, Strategy.
